@@ -1,0 +1,60 @@
+
+
+let fs  = require('fs').promise;
+let sh  = require('shell');
+let jsonFormat = require('json-format');
+
+module.exports = async updateTemplates(appDir, appName, scriptTag) {
+
+/* first update public html files */
+
+let dev = require('./public/dev.js')(appName);
+let ind = require('./public/index.js)(appName,scriptTag);
+await fs.writeFile(appDir + './public/dev.html', dev, 'utf8');
+let s = ind(appName,scriptTag);
+await fs.writeFile(appDir + './public/index.html', s, 'utf8);
+
+
+/* write to src directory */
+let app = require('./src/App.js')(appName);
+let ind2 = require('./src/index.js')(appName);
+let setProxy = require('./src/setProxy.js')(appName);
+
+await fs.writeFile(appDir + '/src/App.js', app, 'utf8');
+await fs.writeFile(appDir + '/src/index.js'. ind2, 'utf8');
+await fs.setProxy(appDir + '/src/setProxy.js', setProxy, 'utf8');
+
+
+/* make Provider directory */
+sh.mkdir(appDir + '/src/providers');
+
+let AppContext = require('./src/providers/AppContext)();
+let AppProvider = require('./src/providers/AppProvider')();
+let ind3 = require('./src/providers/index')();
+let withContext = require('./src/providers/withAppContext)();
+
+await fs.writeFile(appDir + '/src/providers/AppContext.js', AppContext, 'utf8');
+await fs.writeFile(appDir + '/src/providers/AppProvider.js', AppProvider, 'utf8');
+await fs.writeFile(appDir + '/src/providers/index.js', ind3, 'utf8');
+await fs.writeFile(appDir + '/src/providers/withContext.js', withAppContext, 'utf8');
+
+/* Add dockerfile, env and appenv files */
+
+let dockfile = require('./dockfile')(appName);
+await fs.writeFile(appDir + 'Dockerfile', dockfile, 'utf8');
+
+let env = require('./env')(appName);
+await fs.writeFile(appDir + '/app.env', env, 'utf8');
+
+let appenv = require('./appenv')(appName);
+await fs.writeFile(appDir + '/appenv.js', appenv, 'utf8');
+
+/* Now update the package.json script tags */
+
+let jString = await fs.readFile(appDir + 'package.json', 'utf8);
+let pjson = JSON.parse(jString);
+pjson.scripts.dev   = "cross-env APPENTRY=dev.html node app --env=app.env --docker=Dockerfile --appenv=appenv.js";
+pjson.scripts.app = "cross-env APPENTRY=index.html npx @sassoftware/restaf-server --env=app.env --docker=Dockerfile --appenv=appenv.js";
+await fs.writeFile(appDir + '/package.json', jsonFormat(pjson), 'utf8');
+
+}
