@@ -2,13 +2,8 @@ module.exports = function index () {
     let code = `
         import React from 'react';
         import ReactDOM from 'react-dom';
-        // import restaf from 'restaf';
-        import setupViya from './lib/setupViya';
-        import {AppProvider} from './providers';
-        // import './index.css';
+        import {setupViya, AppProvider} from './providers';
         import App from './App';
-        import 'bootstrap/dist/css/bootstrap.min.css';
-        import 'react-bootstrap-table/dist/react-bootstrap-table.min.css';
         //import * as serviceWorker from 'serviceWorker';
 
         let appEnv = window.appOptions.appEnv;

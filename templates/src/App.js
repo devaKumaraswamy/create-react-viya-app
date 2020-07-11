@@ -6,7 +6,7 @@ module.exports = function App (appName) {
         //
         function App(props) {
             const Hello = (props) => {
-            return <h1> Welcome to create-react-viya-app </h2>
+            return <h1> Welcome to ${appName} developed create with create-react-viya-app </h2>
             }
             return <Hello />
         }
