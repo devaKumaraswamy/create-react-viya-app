@@ -2,13 +2,16 @@
 	"name": "@sassofware/create-react-viya-app",
 	"version": "0.1.0",
 	"description": "a cli for creating react+restaf based apps for Viya",
-	"main": "index.js",
+	"main": "cli.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "node cli"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/devakumaraswamy/create-react-viya-app.git"
+	},
+	"bin": {
+		"create-react-viya-app": "cli.js"
 	},
 	"keywords": [
 		"viya",
@@ -26,6 +29,7 @@
 	"dependencies": {
 		"colors": "^1.4.0",
 		"json-format": "^1.0.1",
-		"shelljs": "^0.8.4"
+		"shelljs": "^0.8.4",
+		"yargs": "^15.4.1"
 	}
 }

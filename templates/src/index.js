@@ -1,3 +1,7 @@
+/*
+* Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+* SPDX-License-Identifier: Apache-2.0
+*/
 module.exports = function index () {
     let code = `
         import React from 'react';
@@ -6,12 +10,11 @@ module.exports = function index () {
         import App from './App';
         //import * as serviceWorker from 'serviceWorker';
 
-        let appEnv = window.appOptions.appEnv;
         let store  = window.restaf.initStore();
-        setupViya(store, appEnv, window.appOptions.logonPayload)
+        setupViya(store, window.appOptions.logonPayload)
         .then ( (r) => {
             ReactDOM.render(
-            <AppProvider value={{store: store, viya: r}}>
+            <AppProvider value={{store: store, appOptions: window.appOptions}}>
                 <App />
             </AppProvider>
             , document.querySelector('#root'));

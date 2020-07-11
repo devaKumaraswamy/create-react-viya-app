@@ -1,38 +1,42 @@
+/*
+* Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+* SPDX-License-Identifier: Apache-2.0
+*/
 
-
-let fs  = require('fs').promise;
-let sh  = require('shell');
+let fs  = require('fs').promises;
+let sh  = require('shelljs');
 let jsonFormat = require('json-format');
 
-module.exports = async updateTemplates(appDir, appName, scriptTag, title) {
+module.exports = async function updateTemplates(appDir, appName, scriptTag, title) {
 
-/* first update public html files */
+/* Uppdate index.html and add dev.html for development */
 
-let dev = require('./public/dev.js')(appName);
-await fs.writeFile(appDir + './public/dev.html', dev, 'utf8');
+let dev = require('./templates/public/dev.js')(appName);
+await fs.writeFile(appDir + '/public/dev.html', dev, 'utf8');
 
-let ind = require('./public/index.js)(appName, scriptTag, title);
-await fs.writeFile(appDir + './public/index.html', ind, 'utf8);
-
+let ind = require('./templates/public/index.js')(appName, scriptTag, title);
+await fs.writeFile(appDir + '/public/index.html', ind, 'utf8');
+// sh.cp('./templates/public/favicon.ico', appDir + '/public/favicon.ico');
 
 /* write to src directory */
-let app = require('./src/App.js')(appName);
-let ind2 = require('./src/index.js')(appName);
-let setProxy = require('./src/setProxy.js')(appName);
+let app = require('./templates/src/App.js')(appName);
+let ind2 = require('./templates/src/index.js')();
+let setProxy = require('./templates/src/setProxy.js')(appName);
 
 await fs.writeFile(appDir + '/src/App.js', app, 'utf8');
-await fs.writeFile(appDir + '/src/index.js'. ind2, 'utf8');
-await fs.setProxy(appDir + '/src/setProxy.js', setProxy, 'utf8');
+await fs.writeFile(appDir + '/src/index.js', ind2, 'utf8');
+await fs.writeFile(appDir + '/src/setProxy.js', setProxy, 'utf8');
 
 
 /* make Provider directory */
+// sh.rm('-rf', appDir + '/src/providers');
 sh.mkdir(appDir + '/src/providers');
 
-let AppContext = require('./src/providers/AppContext)();
-let AppProvider = require('./src/providers/AppProvider')();
-let ind3 = require('./src/providers/index')();
-let withContext = require('./src/providers/withAppContext)();
-let setupViya = require('./src/providers/setupViya)();
+let AppContext = require('./templates/src/providers/AppContext')();
+let AppProvider = require('./templates/src/providers/AppProvider')();
+let ind3 = require('./templates/src/providers/index')();
+let withAppContext = require('./templates/src/providers/withAppContext')();
+let setupViya = require('./templates/src/providers/setupViya')();
 
 await fs.writeFile(appDir + '/src/providers/AppContext.js', AppContext, 'utf8');
 await fs.writeFile(appDir + '/src/providers/AppProvider.js', AppProvider, 'utf8');
@@ -42,10 +46,10 @@ await fs.writeFile(appDir + '/src/providers/setupViya.js', setupViya, 'utf8');
 
 /* Add dockerfile, env and appenv files */
 
-let dockfile = require('./dockfile')(appName);
-await fs.writeFile(appDir + 'Dockerfile', dockfile, 'utf8');
+let dockfile = require('./templates/dockfile')(appName);
+await fs.writeFile(appDir + '/Dockerfile', dockfile, 'utf8');
 
-let env = require('./env')(appName);
+let env = require('./templates/env')(appName);
 await fs.writeFile(appDir + '/.env', env, 'utf8');
 
 let appenv = require('./appenv')(appName);
@@ -53,7 +57,7 @@ await fs.writeFile(appDir + '/appenv.js', appenv, 'utf8');
 
 /* Now update the package.json script tags */
 
-let jString = await fs.readFile(appDir + 'package.json', 'utf8);
+let jString = await fs.readFile(appDir + '/package.json', 'utf8');
 let pjson = JSON.parse(jString);
 pjson.scripts.dev   = "cross-env APPENTRY=dev.html node app --env=.env --docker=Dockerfile --appenv=appenv.js";
 pjson.scripts.app = "cross-env APPENTRY=index.html npx @sassoftware/restaf-server --env=.env --docker=Dockerfile --appenv=appenv.js";

@@ -1,5 +1,4 @@
 module.exports = function dev (appName) {
-    
     let ht = `
     <!DOCTYPE html>
     <html lang="en">
@@ -11,11 +10,10 @@ module.exports = function dev (appName) {
         
             <!-- App specific functions -->
             
-            <script type="text/javascript" src="/$appName}/appenv"></script>
-            <script type="text/javascript" src="/${appName}/user"></script>
+            <script type="text/javascript" src="/${appName}/appenv"></script>
             <script>
             function setup() {
-                let url = "${window.location.protocol}//${window.location.host}/${LOGONPAYLOAD.appName}/develop";
+                let url = window.location.protocol + '//' + window.location.host + '/' + LOGONPAYLOAD.appName + '/develop';
                 window.location.replace(url);
             }
             </script>
