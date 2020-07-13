@@ -16,8 +16,6 @@ await fs.writeFile(appDir + '/public/dev.html', dev, 'utf8');
 
 let ind = require('./templates/public/index.js')(appName, scriptTag, title);
 await fs.writeFile(appDir + '/public/index.html', ind, 'utf8');
-sh.cp('./templates/public/favicon.ico', appDir + '/public');
-
 
 /* write to src directory */
 let app = require('./templates/src/App.js')(appName);
@@ -27,24 +25,28 @@ let setupProxy = require('./templates/src/setupProxy.js')(appName);
 await fs.writeFile(appDir + '/src/App.js', app, 'utf8');
 await fs.writeFile(appDir + '/src/index.js', ind2, 'utf8');
 await fs.writeFile(appDir + '/src/setupProxy.js', setupProxy, 'utf8');
-sh.cp('./templates/src/components, appDir + '/src')
+
 
 
 /* make Provider directory */
 // sh.rm('-rf', appDir + '/src/providers');
 sh.mkdir(appDir + '/src/providers');
+sh.mkdir(appDir + '/src/components');
 
 let AppContext = require('./templates/src/providers/AppContext')();
 let AppProvider = require('./templates/src/providers/AppProvider')();
 let ind3 = require('./templates/src/providers/index')();
 let withAppContext = require('./templates/src/providers/withAppContext')();
 let setupViya = require('./templates/src/providers/setupViya')();
+let itemsListViewer = require('./templates/src/components/ItemsListViewer')();
 
 await fs.writeFile(appDir + '/src/providers/AppContext.js', AppContext, 'utf8');
 await fs.writeFile(appDir + '/src/providers/AppProvider.js', AppProvider, 'utf8');
 await fs.writeFile(appDir + '/src/providers/index.js', ind3, 'utf8');
 await fs.writeFile(appDir + '/src/providers/withAppContext.js', withAppContext, 'utf8');
 await fs.writeFile(appDir + '/src/providers/setupViya.js', setupViya, 'utf8');
+await fs.writeFile(appDir + '/src/components/ItemsListViewer.js', itemsListViewer, 'utf8');
+
 
 /* Add Dockerfile, .env, default appenv.js and devServer.js for custom route /develop */
 
@@ -58,6 +60,7 @@ let envlocal = require('./templates/envlocal')(appName);
 await fs.writeFile(appDir + '/.env.local', envlocal, 'utf8');
 
 let appenv = require('./appenv')(appName);
+
 await fs.writeFile(appDir + '/appenv.js', appenv, 'utf8');
 
 let devServer= require('./devServer')(appName);

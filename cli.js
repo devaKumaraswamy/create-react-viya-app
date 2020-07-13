@@ -7,6 +7,7 @@
 
 let argv = require('yargs').argv;
 let colors = require('colors');
+
 let installPackages = require('./installPackages');
 let createReactApp = require('./createReactApp');
 let updateTemplates = require('./updateTemplates');

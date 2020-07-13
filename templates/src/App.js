@@ -22,7 +22,7 @@ function App (props) {
                 <p> By default a react context named AppContext is created. Use it to get access to:</p>
                 <ul>
                 <li> store - restaf store </li>
-                <li> appOptions - this is a js object of the form {appenv: your appenv, logonPayload: your logon payload}</li>
+                <li> appOptions - this is a js object of the form with store and all options obtained thru appenv route</li>
                 </ul>
 
                 <p>Below is a super-simple browser of list of items in files service using restaf. Change the service prop to reports or forms to try it out </p>

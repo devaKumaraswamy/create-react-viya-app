@@ -1,4 +1,7 @@
 
+module.exports = function ItemsListViewer () {
+    
+    let code = `
 import React, { useState, useContext, useEffect } from 'react';
 import AppContext from '../providers/AppContext';
 
@@ -19,7 +22,7 @@ function ItemsListViewer (props) {
             setFolder(f);
        
         });
-    }, [props.service]);
+    }, [props.service, store]);
 
     // handle scrolling thru the list of items
     useEffect(() => {
@@ -65,7 +68,7 @@ function ItemsListViewer (props) {
             setDisplay({ menuList: menu, table: table });
         }
     
-    }, [folder]);
+    }, [folder,store]);
     
   
     // create display
@@ -79,5 +82,8 @@ function ItemsListViewer (props) {
     return show;
 
 }
-
 export default ItemsListViewer;
+`;
+    return code;
+}
+
