@@ -1,5 +1,5 @@
 {
-  "name": "@sassofware/create-react-viya-app",
+  "name": "@devakumaraswamy/create-react-viya-app",
   "version": "0.1.0",
   "description": "a cli for creating react+restaf based apps for Viya",
   "main": "cli.js",
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/devakumaraswamy/create-react-viya-app.git"
   },
   "bin": {
-    "create-react-viya-app": "cli.js"
+    "@devakumarawamy/create-react-viya-app": "cli.js"
   },
   "keywords": [
     "viya",
