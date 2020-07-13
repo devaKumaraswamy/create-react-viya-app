@@ -18,6 +18,7 @@ let ind = require('./templates/public/index.js')(appName, scriptTag, title);
 await fs.writeFile(appDir + '/public/index.html', ind, 'utf8');
 sh.cp('./templates/public/favicon.ico', appDir + '/public');
 
+
 /* write to src directory */
 let app = require('./templates/src/App.js')(appName);
 let ind2 = require('./templates/src/index.js')();
@@ -26,6 +27,7 @@ let setupProxy = require('./templates/src/setupProxy.js')(appName);
 await fs.writeFile(appDir + '/src/App.js', app, 'utf8');
 await fs.writeFile(appDir + '/src/index.js', ind2, 'utf8');
 await fs.writeFile(appDir + '/src/setupProxy.js', setupProxy, 'utf8');
+sh.cp('./templates/src/components, appDir + '/src')
 
 
 /* make Provider directory */
