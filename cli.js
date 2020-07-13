@@ -14,7 +14,7 @@ let updateTemplates = require('./updateTemplates');
 let reactAppName = process.argv[ 2 ];
 let scriptTag = argv.script == null ? '<!-- your script tags go here -->' : argv.script;
 let title = argv.title == null ? 'SAS/Viya Application' : argv.title;
-let appName = argv.webapp == null ? 'viyaapp' : argv.appname;
+let appName = argv.webapp == null ? 'viyademo' : argv.appname;
 let appDirectory = `${process.cwd()}/${reactAppName}`;
 console.log('------------------------------------------------');
 console.log(`React appName: ${reactAppName}`);

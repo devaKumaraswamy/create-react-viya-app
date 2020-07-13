@@ -9,23 +9,23 @@ let jsonFormat = require('json-format');
 
 module.exports = async function updateTemplates(appDir, appName, scriptTag, title) {
 
-/* Uppdate index.html and add dev.html for development */
+/* Update index.html and add dev.html for development */
 
 let dev = require('./templates/public/dev.js')(appName);
 await fs.writeFile(appDir + '/public/dev.html', dev, 'utf8');
 
 let ind = require('./templates/public/index.js')(appName, scriptTag, title);
 await fs.writeFile(appDir + '/public/index.html', ind, 'utf8');
-// sh.cp('./templates/public/favicon.ico', appDir + '/public/favicon.ico');
+sh.cp('./templates/public/favicon.ico', appDir + '/public');
 
 /* write to src directory */
 let app = require('./templates/src/App.js')(appName);
 let ind2 = require('./templates/src/index.js')();
-let setProxy = require('./templates/src/setProxy.js')(appName);
+let setupProxy = require('./templates/src/setupProxy.js')(appName);
 
 await fs.writeFile(appDir + '/src/App.js', app, 'utf8');
 await fs.writeFile(appDir + '/src/index.js', ind2, 'utf8');
-await fs.writeFile(appDir + '/src/setProxy.js', setProxy, 'utf8');
+await fs.writeFile(appDir + '/src/setupProxy.js', setupProxy, 'utf8');
 
 
 /* make Provider directory */
@@ -41,10 +41,10 @@ let setupViya = require('./templates/src/providers/setupViya')();
 await fs.writeFile(appDir + '/src/providers/AppContext.js', AppContext, 'utf8');
 await fs.writeFile(appDir + '/src/providers/AppProvider.js', AppProvider, 'utf8');
 await fs.writeFile(appDir + '/src/providers/index.js', ind3, 'utf8');
-await fs.writeFile(appDir + '/src/providers/withContext.js', withAppContext, 'utf8');
+await fs.writeFile(appDir + '/src/providers/withAppContext.js', withAppContext, 'utf8');
 await fs.writeFile(appDir + '/src/providers/setupViya.js', setupViya, 'utf8');
 
-/* Add dockerfile, env and appenv files */
+/* Add Dockerfile, .env, default appenv.js and devServer.js for custom route /develop */
 
 let dockfile = require('./templates/dockfile')(appName);
 await fs.writeFile(appDir + '/Dockerfile', dockfile, 'utf8');
@@ -52,15 +52,24 @@ await fs.writeFile(appDir + '/Dockerfile', dockfile, 'utf8');
 let env = require('./templates/env')(appName);
 await fs.writeFile(appDir + '/.env', env, 'utf8');
 
+let envlocal = require('./templates/envlocal')(appName);
+await fs.writeFile(appDir + '/.env.local', envlocal, 'utf8');
+
 let appenv = require('./appenv')(appName);
 await fs.writeFile(appDir + '/appenv.js', appenv, 'utf8');
 
-/* Now update the package.json script tags */
+let devServer= require('./devServer')(appName);
+await fs.writeFile(appDir + '/devServer.js', devServer, 'utf8');
+
+/* Final step: Update package.json scripts  */
 
 let jString = await fs.readFile(appDir + '/package.json', 'utf8');
 let pjson = JSON.parse(jString);
-pjson.scripts.dev   = "cross-env APPENTRY=dev.html node app --env=.env --docker=Dockerfile --appenv=appenv.js";
-pjson.scripts.app = "cross-env APPENTRY=index.html npx @sassoftware/restaf-server --env=.env --docker=Dockerfile --appenv=appenv.js";
+pjson.scripts.dev   = "cross-env APPENTRY=dev.html APPLOC=./public node devServer --env=.env --docker=Dockerfile --appenv=appenv.js";
+pjson.scripts.app   = "cross-env APPENTRY=index.html APPLOC=./build npx @sassoftware/restaf-server --env=.env --docker=Dockerfile --appenv=appenv.js";
+pjson.scripts.indocker = "npx @sassoftware/restaf-server";
+pjson.scripts.dkrbuild =  "docker build -f Dockerfile -t ${appName} .",
+pjson.scripts.dkrrun   = "docker run -p 8080:8080  --env-file override.env  -t ${appName}"
 await fs.writeFile(appDir + '/package.json', jsonFormat(pjson), 'utf8');
 
 }

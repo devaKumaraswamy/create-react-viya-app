@@ -7,18 +7,21 @@ module.exports = function env (appName) {
 ####################################################
 # Server configuration
 ####################################################
+
 APPNAME=${appName}
-# Note that APPENTRY is not logon.html anymore
+# Note: See package.json script tag for how APPENTRY and APPLOC is being set
+# to facilate switching between public/dev.html and build/index.html
 # APPENTRY=index.html
-APPLOC=./build
+APPLOC=
 APPHOST=localhost
 APPPORT=5000
 VIYA_SERVER=
 AUTHFLOW=code
-#Enter the clientID that is registered for your app on your server(make sure this is your new authorization_code)
-CLIENTID=
-CLIENTSECRET=
-
+# Enter the clientID that is registered for your app on your Viya server
+# Make sure this is your new authorization_code.
+# 
+CLIENTID=viyademo
+CLIENTSECRET=secret
 #################################################################
 # Application Section
 #################################################################

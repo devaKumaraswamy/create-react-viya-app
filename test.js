@@ -1,5 +1,4 @@
-let fs = require('fs').promises;
-let colors = require('colors');
-let jsonFormat = require('json-format');
 
-console.error(`A`.red);
+let sh = require('shell');
+
+sh.copy(favicon.ico, './src/favicon.cp');
