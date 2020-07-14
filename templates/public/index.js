@@ -10,7 +10,7 @@ module.exports = function index (appName, scriptTag, title) {
                 <meta name="theme-color" content="#000000">
                 <title>${title}</title>
                 <script src="https://unpkg.com/@sassoftware/restaf/dist/restaf.min.js"></script>
-                <script src="https://unpkg.com/@sassoftware/restaflib/dist/restaf.min.js"></script>
+                <script src="https://unpkg.com/@sassoftware/restaflib/dist/restaflib.min.js"></script>
                 <script type="text/javascript" src="/${appName}/appenv"></script>
                 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
                 <script src="https://unpkg.com/@webcomponents/custom-elements"></script>
