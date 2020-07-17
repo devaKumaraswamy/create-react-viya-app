@@ -4,9 +4,11 @@
 */
 module.exports = function setupViya () {
     let code = `
+let restaf = require('@sassoftware/restaf/dist/restaf.js');
 async function setupViya() {
-    let store = window.restaf.initStore();
+    let store = restaf.initStore();
     await store.logon(window.appOptions.logonPayload);
+    /* Commonly used services */
     await store.addServices(
         'casManagement',
         'compute',

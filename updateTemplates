@@ -14,7 +14,12 @@ module.exports = async function updateTemplates(appDir, appName, scriptTag, titl
 let dev = require('./templates/public/dev.js')(appName);
 await fs.writeFile(appDir + '/public/dev.html', dev, 'utf8');
 
-let ind = require('./templates/public/index.js')(appName, scriptTag, title);
+let scriptx = '<!-- add your scripts here -->';
+if(scriptTag !== null ) {
+  scriptx = await fs.readFile(scriptTag,'utf8');
+};
+
+let ind = require('./templates/public/index.js')(appName, scriptx, title);
 await fs.writeFile(appDir + '/public/index.html', ind, 'utf8');
 
 /* write to src directory */

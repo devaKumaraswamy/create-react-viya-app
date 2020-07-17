@@ -58,7 +58,6 @@ npm run app
 
 Then use the created app just as you would any app created with create-react-app
 
-
 ## React Context - AppContext
 
 By default a react context named AppContext is created.

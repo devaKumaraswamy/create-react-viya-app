@@ -13,7 +13,7 @@ let createReactApp = require('./createReactApp');
 let updateTemplates = require('./updateTemplates');
 
 let reactAppName = process.argv[ 2 ];
-let scriptTag = argv.script == null ? '<!-- your script tags go here -->' : argv.script;
+let scriptTag = argv.script == null ? null : argv.script;
 let title = argv.title == null ? 'SAS/Viya Application' : argv.title;
 let appName = argv.webapp == null ? 'viyademo' : argv.appname;
 let appDirectory = `${process.cwd()}/${reactAppName}`;
@@ -37,15 +37,25 @@ const run = async () => {
 
 run()
 	.then(() => {
-		console.log('\nApplication has been created successfully \n'.green);
-		console.log(`\nConfigure .env file\n`);
+		console.log('\nApplication has been created successfully \n'.green);   
+		console.log(`\nPlease configure .env file to suite your needs\n`.green);
+
+		console.log(`This application is setup to access SAS Viya using the libraries listed below`);
+		let t = [
+			{ Library: 'restaf', Purpose: 'Use this to make API calls to SAS Viya' },
+			{ Library: 'restaflib', Purpose: 'Use this for common SAS Viya usage patterns' },
+			{ Library: 'restaf-server', Purpose: 'Authenticate with SAS Viya and server up the app' },
+			{ Library: 'visual - analytics - sdk', Purpose: 'SAS Visual Analytics SDK' }
+		];
+		console.table(t);
+		                 
 		console.log(
-			`For development run this command:    
-		        npm run dev`
+			`\nFor development run this command:    
+		        npm run dev`.cyan
 		);
 		console.log(
-			`For standard application mode run this command(after npm run build)
-			    npm run app`
+			`\nFor standard application mode run this command(after npm run build)
+			    npm run app`.cyan
 		);
 	})
 	.catch((err) => {
