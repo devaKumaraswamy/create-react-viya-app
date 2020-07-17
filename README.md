@@ -1,25 +1,37 @@
-# create-react-viya-app
+# create-react-restaf-viya-app
 
-Extends create-react-app for SAS Viya Applications. The goal is to create an environment where you can develop react-based apps for Viya using SAS REST API.The app is configured to use:
+create-react-app from Facebook is a very popular cli for jump starting developing react apps.One of its key features is the Hot Module Replacement which recompiles and updates the display as the code is being updated.
+
+Additionally when developing Viya apps the code needs to access SAS Viya using the REST APIs.
+
+This extension of create-react-app is designed to help developer's building react apps using restaf library and its companions:
 
 1. restaf
 2. restaflib
 3. restaf-server
 
+![create-react-restaf-viya](/create-react-restaf-viya-app.png)
+
+>There is a fully functional demo in the demo directory of this repository. It uses material-ui as the primary UI framework.
+
+## Key Assumption
+
+The application is authenticated using authorization_code flow.
+
 ## App Creation
 
 ```sh
-npx create-react-viya-app react-appname --webapp webapp-name  --title webapp-title
+npx create-react-viya-app react-appname --webapp webapp-name  --title webapp-title --script scriptTags-file
 ```
 
 Only the react-appname is required.
 The optional parameters are:
 
-- webapp  -- this maps to APPNAME in @sasoftware/restaf-server. Defaults to **viyademo**
+- webapp  -- this is the user-friendly application name. Defaults to **viyademo**
 
 - title   -- The text for the title tag in index.html. Defaults to **SAS/Viya Application**
 
-- script  -- a file which has some HTML script tags to be inserted into index.html - default is a comment line
+- script  -- a file which has some HTML script tags to be inserted into index.html - defaults is a comment line
 
 ## Configuration
 
@@ -77,4 +89,12 @@ let {appenv, logonPayload} = appOptions;
 
 ```
 
-See src/components/ItemsListViewer for an example.
+## Requiring restaf and restaflib in your application
+
+Code these as follows:
+
+```js
+const restaf = require('@sassoftware/restaf/dist/restaf.js');
+const restaflib = require('@sassoftware/restaflib/dist/restaflib.js');
+
+```
