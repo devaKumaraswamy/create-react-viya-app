@@ -11,7 +11,6 @@ module.exports = function index (appName, scriptTag, title) {
                 <title>${title}</title>
                 <script type="text/javascript" src="/${appName}/appenv"></script>
                 <script async src="https://unpkg.com/@sassoftware/va-report-components@0.6/dist/umd/va-report-components.js"></script>
-                <script src="https://unpkg.com/@sassoftware/va-report-components@0.6.0/dist/umd/va-report-components.js"></script>
                 ${scriptTag}
             </head>
             <body>
