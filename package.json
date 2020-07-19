@@ -1,6 +1,6 @@
 {
   "name": "@devakumaraswamy/create-react-viya-app",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "a cli for creating react+restaf based apps for Viya",
   "main": "cli.js",
   "scripts": {
