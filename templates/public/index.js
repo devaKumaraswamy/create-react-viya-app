@@ -15,7 +15,7 @@ module.exports = function index (appName, scriptTag, title) {
             </head>
             <body>
                 <script>
-                   window.appOptions = {host: "%REACT_APP_VIYA_SERVER%", appEnv: APPENV, logonPayload: LOGONPAYLOAD};
+                   window.appOptions = {appEnv: APPENV, logonPayload: LOGONPAYLOAD};
                 </script>
                 <div id="root">
                 </div>

@@ -10,9 +10,10 @@ let jsonFormat = require('json-format');
 module.exports = async function updateTemplates(appDir, appName, scriptTag, title) {
 
 /* Update index.html and add dev.html for development */
-
+/*
 let dev = require('./templates/public/dev.js')(appName);
 await fs.writeFile(appDir + '/public/dev.html', dev, 'utf8');
+*/
 
 let scriptx = '<!-- add your scripts here -->';
 if(scriptTag !== null ) {
@@ -75,11 +76,8 @@ await fs.writeFile(appDir + '/devServer.js', devServer, 'utf8');
 
 let jString = await fs.readFile(appDir + '/package.json', 'utf8');
 let pjson = JSON.parse(jString);
-pjson.scripts.dev   = "cross-env APPENTRY=dev.html APPLOC=./public node devServer --env=.env --docker=Dockerfile --appenv=appenv.js";
-pjson.scripts.app   = "cross-env APPENTRY=index.html APPLOC=./build npx @sassoftware/restaf-server --env=.env --docker=Dockerfile --appenv=appenv.js";
-pjson.scripts.indocker = "npx @sassoftware/restaf-server";
-pjson.scripts.dkrbuild =  "docker build -f Dockerfile -t ${appName} .",
-pjson.scripts.dkrrun   = "docker run -p 8080:8080  --env-file override.env  -t ${appName}"
+pjson.scripts.dev   = "cross-env APPENTRY=dev.html APPLOC=./public node server --env=.env --docker=Dockerfile --appenv=appenv.js";
+pjson.scripts.app   = "cross-env APPENTRY=index.html APPLOC=./build node server --env=.env --docker=Dockerfile --appenv=appenv.js";
 await fs.writeFile(appDir + '/package.json', jsonFormat(pjson), 'utf8');
 
 }

@@ -6,11 +6,11 @@ Additionally when developing Viya apps the code needs to access SAS Viya using t
 
 This extension of create-react-app is designed to help developer's building react apps using restaf library and its companions:
 
-1. restaf
-2. restaflib
-3. restaf-server
+1. [restaf](https://github.com/sassoftware/restaf/wiki)
+2. [restaflib](https://github.com/sassoftware/restaf/wiki)
+3. [restaf-server](https://github.com/sassoftware/restaf-server/wiki)
 
-![create-react-restaf-viya](/create-react-restaf-viya-app.png)
+![create-react-restaf-viya](create-react-restaf-viya-app.png)
 
 >There is a fully functional demo in the demo directory of this repository. It uses material-ui as the primary UI framework.
 
@@ -56,7 +56,7 @@ Run this command to have HMR enabled
 
 ```sh
 cd to-the-app-directory
-npm run dev
+yarn dev
 ```
 
 ## Application mode
@@ -65,7 +65,7 @@ Run this command( no HMR)
 
 ```sh
 cd to-the-app-directory
-npm run app
+yarn app
 ```
 
 Then use the created app just as you would any app created with create-react-app
@@ -89,12 +89,15 @@ let {appenv, logonPayload} = appOptions;
 
 ```
 
+The store is the restaf store object that you will use to make the API calls.
+
 ## Requiring restaf and restaflib in your application
 
-Code these as follows:
+These two libraries are part of the installed dependencies. To access them in your react components do these as follows:
 
 ```js
-const restaf = require('@sassoftware/restaf/dist/restaf.js');
-const restaflib = require('@sassoftware/restaflib/dist/restaflib.js');
-
+let restaf = require('@sassoftware/restaf/dist/restaf.js');
+let restaflib = require('@sassoftware/restaflib/dist/restaflib.js');
 ```
+
+In all probablity you will not refer directly to restaf in your code. You will use the store object in the AppContext(see above). This value is set as part of the application setup.

@@ -51,11 +51,11 @@ run()
 		                 
 		console.log(
 			`\nFor development run this command:    
-		        npm run dev`.cyan
+		        yarn dev`.cyan
 		);
 		console.log(
 			`\nFor standard application mode run this command(after npm run build)
-			    npm run app`.cyan
+			    yarn app`.cyan
 		);
 	})
 	.catch((err) => {
