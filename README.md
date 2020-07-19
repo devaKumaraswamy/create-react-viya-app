@@ -65,6 +65,7 @@ Run this command( no HMR)
 
 ```sh
 cd to-the-app-directory
+yarn build
 yarn app
 ```
 
