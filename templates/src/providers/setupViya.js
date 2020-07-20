@@ -4,9 +4,9 @@
 */
 module.exports = function setupViya () {
     let code = `
-let restaf = require('@sassoftware/restaf/dist/restaf.js');
+import {initStore} from '@sassoftware/restaf/dist/restaf.js';
 async function setupViya() {
-    let store = restaf.initStore();
+    let store = initStore();
     await store.logon(window.appOptions.logonPayload);
     /* Commonly used services */
     await store.addServices(

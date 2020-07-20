@@ -99,6 +99,12 @@ These two libraries are part of the installed dependencies. To access them in yo
 ```js
 let restaf = require('@sassoftware/restaf/dist/restaf.js');
 let restaflib = require('@sassoftware/restaflib/dist/restaflib.js');
+
+or
+
+import * as restaf from '@sassoftware/restaf/dist/restaf.js';
+import * as restaflib from import * as restaf from '@sassoftware/restaf/dist/restaflib.js';
+
 ```
 
 In all probablity you will not refer directly to restaf in your code. You will use the store object in the AppContext(see above). This value is set as part of the application setup.

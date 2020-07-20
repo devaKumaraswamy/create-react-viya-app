@@ -2,9 +2,9 @@
 module.exports = function ItemsListViewer () {
     
     let code = `
+
 import React, { useState, useContext, useEffect } from 'react';
 import AppContext from '../providers/AppContext';
-
 
 function ItemsListViewer (props) {
     // common setup
@@ -13,15 +13,27 @@ function ItemsListViewer (props) {
 
     // component setup
     let [ display, setDisplay ] = useState(null);
-    let [ folder, setFolder ] = useState(null);
+    let [ folder, setFolder ]   = useState(null);
+    let [ error, setError ]     = useState(null);
 
     // load the initial set of items
+    
     useEffect(() => {
-        let serviceRoot = store.getServiceRoot(props.service);
-        store.apiCall(serviceRoot.links(props.service)).then((f) => {
+        async function getService (newService) {
+			let s = await store.addServices(newService);
+			let service = s[newService];
+            let f = await store.apiCall(service.links(newService));
+			return f;
+		}
+        getService(props.service)
+        .then((f) => {
             setFolder(f);
-       
-        });
+            setError(null);
+        })
+        .catch(err => {
+            setError(JSON.stringify(err, null, 4));
+        })
+
     }, [props.service, store]);
 
     // handle scrolling thru the list of items
@@ -29,7 +41,6 @@ function ItemsListViewer (props) {
         const doCommand = (f, rel) => {
             store.apiCall(f.scrollCmds(rel))
                 .then((fnew) => {
-                    debugger;
                     setFolder(fnew);
                     })
         }
@@ -38,7 +49,6 @@ function ItemsListViewer (props) {
             let cmds = f.scrollCmds();
             let menu = [];
             cmds.forEach((c, rel) => {
-                console.log(rel);
                 menu.push(
                     <button key={rel} onClick={()=> doCommand(f, rel)} className="button">
                         {' '}
@@ -73,7 +83,8 @@ function ItemsListViewer (props) {
   
     // create display
 
-    let show = (display == null)
+    let show = (error !== null) ? <div>{error}</div> :
+        (display == null)
         ? <div> Loading...</div>
         : <div>
             {display.menuList}
@@ -83,6 +94,8 @@ function ItemsListViewer (props) {
 
 }
 export default ItemsListViewer;
+
+
 `;
     return code;
 }
